@@ -1,0 +1,22 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <h1>Completed Todos</h1>
+
+    <ul>
+        {% for todo in todos %}
+            <li><a href="{% url 'viewtodo' todo.pk %}">
+                {% if todo.importance %}
+                    <b>{{ todo.title }}</b>
+                {% else %}
+                    {{ todo.title }}
+                {% endif %}
+                </a>
+                - Completed on {{ todo.datecompleted|date:"F j, Y H:i" }}
+            </li>
+        {% empty %}
+            <li>No completed todos.</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

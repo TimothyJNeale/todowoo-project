@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <title>Todo App</title>
+    </head>
+
+    <body>
+        <header>
+            <h1>Welcome to the Future</h1>
+            <hr>
+            <h3>Todo App</h3>
+
+            {% if user.is_authenticated %}
+                Logged In as {{ user.username }}
+                </br>
+                <a href="{% url 'createtodo' %}">Create New Todo</a>
+                </br>   
+                <a href="{% url 'currenttodos' %}">Current Todos</a>
+                </br>
+                <a href="{% url 'completedtodos' %}">Completed Todos</a>
+                </br>   
+
+                
+                <form action="{% url 'logoutuser' %}"  method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+
+            {% else %}
+                <a href="{% url 'signupuser' %}">Sign Up</a>
+                </br>
+                <a href="{% url 'loginuser' %}">Login</a>
+
+            {% endif %}
+            <hr>
+        </header>
+
+        </hr>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    </body>
+</html>
+
+
