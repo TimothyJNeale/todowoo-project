@@ -8,9 +8,9 @@
     </div>
     <div class="row justify-content-center mt-5">
         <div class="col-md-5">
-            {% if error %}
+            {% if form.errors %}
                 <div class="alert alert-danger" role="alert">
-                    {{ error }}
+                    {{ form.errors }}
                 </div>
             {% endif %}
             <form method="POST">
@@ -23,9 +23,15 @@
                     <label for="memo">Memo</label>
                     <textarea name="memo" class="form-control" id="memo" ></textarea>
                 </div>
-                <div class="form-group form-check">
-                    <input type="checkbox" name="important" class="form-check-input" id="important">
-                    <label class="form-check-label" for="important">Important</label>
+                <div class="form-group">
+                    <label for="importance">Importance (1-5)</label>
+                    <select name="importance" class="form-control" id="importance" required style="width: 70px; display: inline-block;">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>

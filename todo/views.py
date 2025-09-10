@@ -58,13 +58,16 @@ def createtodo(request):
     if request.method == 'GET':
         return render(request, 'todo/createtodo.html', {'form': TodoForm()})
     else:
-        # Create a new todo
+        # Create new todo
         form = TodoForm(request.POST)
         if form.is_valid():
             newtodo = form.save(commit=False)
             newtodo.user = request.user
             newtodo.save()
             return redirect('currenttodos')
+        # Add this to handle invalid form submissions
+        print(form.errors)  # Or use logging
+        return render(request, 'todo/createtodo.html', {'form': form})
 
 @login_required
 def currenttodos(request):
