@@ -17,7 +17,7 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="title">Title</label>
-                    <input type="text" name="title" class="form-control" id="title" value="{{ todo.title }}" required>
+                    <input type="text" name="title" class="form-control" id="title" value="{{ todo.title }}" required {% if next == 'completedtodos' %}disabled{% endif %}>
                 </div>
                 <div class="form-group">
                     <label for="memo">Memo</label>
@@ -34,8 +34,8 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-success" onclick="$('#complete').click()">Complete</button>
-                <button type="button" class="btn btn-danger" onclick="$('#delete').click()">Delete</button>
+                <button type="button" class="btn {% if next == 'completedtodos' %}btn-outline-secondary disabled{% else %}btn-success{% endif %}" {% if next == 'completedtodos' %}disabled{% endif %} onclick="$('#complete').click()">Complete</button>
+                <button type="button" class="btn {% if next == 'completedtodos' %}btn-outline-secondary disabled{% else %}btn-danger{% endif %}" {% if next == 'completedtodos' %}disabled{% endif %} onclick="$('#delete').click()">Delete</button>
             </form>
         </div>
     </div>
