@@ -71,7 +71,7 @@ def createtodo(request):
 
 @login_required
 def currenttodos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True)
+    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True).order_by('-importance')
     return render(request, 'todo/currenttodos.html', {'todos': todos})
 
 @login_required
