@@ -82,16 +82,17 @@ def completedtodos(request):
 @login_required
 def viewtodo(request, todo_pk):
     todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    next_page = request.GET.get('next') or request.POST.get('next') or 'currenttodos'
     if request.method == 'GET':
         form = TodoForm(instance=todo)
-        return render(request, 'todo/viewtodo.html', {'todo': todo, 'form': form})
+        return render(request, 'todo/viewtodo.html', {'todo': todo, 'form': form, 'next': next_page})
     else:
         form = TodoForm(request.POST, instance=todo)
         try:
             form.save()
-            return redirect('currenttodos')
+            return redirect(next_page)
         except ValueError:
-            return render(request, 'todo/viewtodo.html', {'todo': todo, 'form': form, 'error': 'Invalid data. Please try again.'})
+            return render(request, 'todo/viewtodo.html', {'todo': todo, 'form': form, 'error': 'Invalid data. Please try again.', 'next': next_page})
 
 @login_required
 def completetodo(request, todo_pk):

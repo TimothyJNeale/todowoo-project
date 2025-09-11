@@ -11,7 +11,8 @@
             <div class="list-group">
                 {% for todo in todos %}
                     <div class="d-flex align-items-center list-group-item list-group-item-action{% if todo.importance == 5 %} list-group-item-danger{% endif %}">
-                        <a href="{% url 'viewtodo' todo.id %}" class="flex-grow-1 text-decoration-none text-dark">
+                        <!-- For completed todos -->
+                        <a href="{% url 'viewtodo' todo.id %}?next=completedtodos" class="flex-grow-1 text-decoration-none text-dark">
                             <b>{{ todo.title }}</b> - Completed {{ todo.datecompleted|date:'M j Y H:i' }}
                         </a>
                         <span class="badge bg-secondary ms-2" title="Importance">{{ todo.importance }}</span>
