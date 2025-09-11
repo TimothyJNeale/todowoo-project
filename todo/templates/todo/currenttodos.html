@@ -21,6 +21,12 @@
                             <b>{{ todo.title }}</b>{% if todo.memo %} - {{ todo.memo|truncatechars:30 }}{% endif %}
                         </a>
                         <span class="badge bg-secondary ms-2" title="Importance">{{ todo.importance }}</span>
+                            <form method="POST" action="{% url 'completetodo' todo.id %}" class="ms-2" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm" title="Mark as complete">
+                                    ✓
+                                </button>
+                            </form>
                     </div>
                 {% endfor %}
             </div>
