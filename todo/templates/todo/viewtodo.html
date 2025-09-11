@@ -34,9 +34,12 @@
                         <option value="5" {% if todo.importance == 5 %}selected{% endif %}>5</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn {% if next == 'completedtodos' %}btn-outline-secondary disabled{% else %}btn-success{% endif %}" {% if next == 'completedtodos' %}disabled{% endif %} onclick="$('#complete').click()">Complete</button>
-                <button type="button" class="btn {% if next == 'completedtodos' %}btn-outline-secondary disabled{% else %}btn-danger{% endif %}" {% if next == 'completedtodos' %}disabled{% endif %} onclick="$('#delete').click()">Delete</button>
+                <div class="d-flex align-items-center">
+                    <button type="submit" class="btn btn-primary me-2">Save</button>
+                    <button type="button" class="btn {% if next == 'completedtodos' %}btn-outline-secondary disabled{% else %}btn-success{% endif %} me-2" {% if next == 'completedtodos' %}disabled{% endif %} onclick="$('#complete').click()">Complete</button>
+                    <a href="{% url next %}" class="btn btn-secondary me-2">Cancel</a>
+                    <button type="button" class="btn {% if next == 'completedtodos' %}btn-outline-secondary disabled{% else %}btn-danger{% endif %} ms-auto" {% if next == 'completedtodos' %}disabled{% endif %} onclick="$('#delete').click()">Delete</button>
+                </div>
             </form>
         </div>
     </div>
