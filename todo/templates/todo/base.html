@@ -21,7 +21,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
             {% if user.is_authenticated %}
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav ms-auto">
 
                         <li class="nav-item {{ current }}">
                             <a class="nav-link" href="{% url 'currenttodos' %}">Current</a>
@@ -35,7 +35,7 @@
 
                 </ul>
             {% endif %}
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
 
                     <li class="nav-item">
