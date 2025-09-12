@@ -41,8 +41,12 @@
                     <button type="button" class="btn {% if next == 'completedtodos' %}btn-outline-secondary disabled{% else %}btn-danger{% endif %} ms-auto" {% if next == 'completedtodos' %}disabled{% endif %} onclick="$('#delete').click()">Delete</button>
                 </div>
 
-                <input type="hidden" name="title" value="{{ todo.title }}">
-                <input type="hidden" name="importance" value="{{ todo.importance }}">
+                {% if next == 'completedtodos' %}
+                    <input type="hidden" name="title" value="{{ todo.title }}">
+                    <input type="hidden" name="importance" value="{{ todo.importance }}">
+
+                {% endif %}
+
                 
             </form>
         </div>
