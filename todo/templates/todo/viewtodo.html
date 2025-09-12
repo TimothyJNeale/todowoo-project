@@ -18,7 +18,6 @@
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" name="title" class="form-control" id="title" value="{{ todo.title }}" required {% if next == 'completedtodos' %}disabled{% endif %}>
-                    <input type="hidden" name="title" value="{{ todo.title }}">
                 </div>
                 <div class="form-group">
                     <label for="memo">Memo</label>
@@ -26,13 +25,14 @@
                 </div>
                 <div class="form-group">
                     <label for="importance">Importance (1-5)</label>
-                    <select name="importance" class="form-control" id="importance" required style="width: 70px; display: inline-block;">
+                    <select name="importance" class="form-control" id="importance" required style="width: 70px; display: inline-block;" {% if next == 'completedtodos' %}disabled{% endif %}>
                         <option value="1" {% if todo.importance == 1 %}selected{% endif %}>1</option>
                         <option value="2" {% if todo.importance == 2 %}selected{% endif %}>2</option>
                         <option value="3" {% if todo.importance == 3 %}selected{% endif %}>3</option>
                         <option value="4" {% if todo.importance == 4 %}selected{% endif %}>4</option>
                         <option value="5" {% if todo.importance == 5 %}selected{% endif %}>5</option>
                     </select>
+
                 </div>
                 <div class="d-flex align-items-center">
                     <button type="submit" class="btn btn-primary me-2">Save</button>
@@ -40,6 +40,10 @@
                     <a href="{% url next %}" class="btn btn-secondary me-2">Cancel</a>
                     <button type="button" class="btn {% if next == 'completedtodos' %}btn-outline-secondary disabled{% else %}btn-danger{% endif %} ms-auto" {% if next == 'completedtodos' %}disabled{% endif %} onclick="$('#delete').click()">Delete</button>
                 </div>
+
+                <input type="hidden" name="title" value="{{ todo.title }}">
+                <input type="hidden" name="importance" value="{{ todo.importance }}">
+                
             </form>
         </div>
     </div>
