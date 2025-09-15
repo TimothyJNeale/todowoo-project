@@ -55,8 +55,9 @@ def logoutuser(request):
 
 @login_required
 def createtodo(request):
+    next_page = request.GET.get('next') or request.POST.get('next') or 'currenttodos'
     if request.method == 'GET':
-        return render(request, 'todo/createtodo.html', {'form': TodoForm()})
+        return render(request, 'todo/createtodo.html', {'form': TodoForm(), 'next': next_page})
     else:
         # Create new todo
         form = TodoForm(request.POST)
@@ -64,10 +65,10 @@ def createtodo(request):
             newtodo = form.save(commit=False)
             newtodo.user = request.user
             newtodo.save()
-            return redirect('currenttodos')
+            return redirect(next_page)
         # Add this to handle invalid form submissions
         print(form.errors)  # Or use logging
-        return render(request, 'todo/createtodo.html', {'form': form})
+        return render(request, 'todo/createtodo.html', {'form': form, 'next': next_page})
 
 @login_required
 def currenttodos(request):

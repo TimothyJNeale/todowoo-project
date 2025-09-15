@@ -2,10 +2,11 @@
 
 {% block content %}
 <div class="row justify-content-center mt-5">
-        <div class="col-md-10">
-            <h1>Completed Todos</h1>
-        </div>
+    <div class="col-md-10 d-flex align-items-center justify-content-between">
+        <h1 class="d-inline">Completed Todos</h1>
+        <a href="{% url 'createtodo' %}?next=completedtodos" class="btn btn-primary btn-sm ms-3">New Todo</a>
     </div>
+</div>
     <div class="row justify-content-center mt-5">
         <div class="col-md-10">
             <div class="list-group">
