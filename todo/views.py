@@ -5,8 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from .forms import TodoForm
 from .models import Todo
+from todowoo.constants import MAX_TODOS_PER_PAGE
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def home(request):
     return render(request, 'todo/home.html')
@@ -77,7 +79,16 @@ def currenttodos(request):
 
 @login_required
 def completedtodos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
+
+    todos_list = Todo.objects.filter(user=request.user, datecompleted__isnull=False).order_by('-datecompleted')
+    paginator = Paginator(todos_list, MAX_TODOS_PER_PAGE)
+    page = request.GET.get('page')
+    try:
+        todos = paginator.page(page)
+    except PageNotAnInteger:
+        todos = paginator.page(1)
+    except EmptyPage:
+        todos = paginator.page(paginator.num_pages)
     return render(request, 'todo/completedtodos.html', {'todos': todos})
 
 @login_required

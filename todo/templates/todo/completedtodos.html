@@ -22,5 +22,48 @@
             </div>
         </div>
     </div>
+    {% if todos.has_other_pages %}
+    <div class="row justify-content-center pt-2">
+        <div class="col-md-10">
+            <nav aria-label="Completed todos pagination" class="mt-2">
+                <ul class="pagination justify-content-center">
+                    {% if todos.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ todos.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </span>
+                        </li>
+                    {% endif %}
+                    {% for num in todos.paginator.page_range %}
+                        {% if todos.number == num %}
+                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if todos.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ todos.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}
 
