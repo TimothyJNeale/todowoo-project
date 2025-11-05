@@ -9,6 +9,8 @@ from todowoo.constants import MAX_TODOS_PER_PAGE
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.conf import settings
+from django.contrib import messages
 
 def home(request):
     return render(request, 'todo/home.html')
@@ -17,22 +19,27 @@ def home(request):
  # User ayhtentyication functions
 
 def signupuser(request):
+    # Block signup if protected mode is enabled
+    if settings.PROTECTED_MODE:
+        messages.error(request, "New user registrations are currently disabled.")
+        return redirect('loginuser')
+
     if request.method == 'GET':
         return render(request, 'todo/signupuser.html', {'form': UserCreationForm()})
     else:
        if request.POST['password1'] == request.POST['password2']:
            try:
-               user = User.objects.create_user(username=request.POST['username'], 
+               user = User.objects.create_user(username=request.POST['username'],
                                                password=request.POST['password1'])
                user.save()
                login(request, user)
                return redirect('currenttodos')
            except IntegrityError:
-                return render(request, 'todo/signupuser.html', {'form': UserCreationForm(), 
+                return render(request, 'todo/signupuser.html', {'form': UserCreationForm(),
                                                            'error': 'Username already taken. Please choose a new username.'})
        else:
            # Tell user problem with passwords
-           return render(request, 'todo/signupuser.html', {'form': UserCreationForm(), 
+           return render(request, 'todo/signupuser.html', {'form': UserCreationForm(),
                                                            'error': 'Passwords do not match'})
 
 def loginuser(request):
@@ -74,7 +81,15 @@ def createtodo(request):
 
 @login_required
 def currenttodos(request):
-    todos = Todo.objects.filter(user=request.user, datecompleted__isnull=True).order_by('-importance')
+    todos_list = Todo.objects.filter(user=request.user, datecompleted__isnull=True).order_by('-importance')
+    paginator = Paginator(todos_list, MAX_TODOS_PER_PAGE)
+    page = request.GET.get('page')
+    try:
+        todos = paginator.page(page)
+    except PageNotAnInteger:
+        todos = paginator.page(1)
+    except EmptyPage:
+        todos = paginator.page(paginator.num_pages)
     return render(request, 'todo/currenttodos.html', {'todos': todos})
 
 @login_required

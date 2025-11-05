@@ -13,6 +13,27 @@
                     {{ error }}
                 </div>
             {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <!-- Modal for error messages -->
+                    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-danger text-white">
+                                    <h5 class="modal-title" id="errorModalLabel">Registration Disabled</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ message }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-group mb-2">
@@ -26,9 +47,23 @@
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
             <hr>
-            <div class="text-center">
-                Need an account? <a href="{% url 'signupuser' %}">Sign Up here</a>
-            </div>
+            {% if PROTECTED_MODE %}
+                <div class="text-center">User registration is currently disabled</div>
+            {% else %}
+                <div class="text-center">
+                    Need an account? <a href="{% url 'signupuser' %}">Sign Up here</a>
+                </div>
+            {% endif %}
         </div>
     </div>
+
+    {% if messages %}
+        <script>
+            // Automatically show the modal when the page loads
+            document.addEventListener('DOMContentLoaded', function() {
+                var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+            });
+        </script>
+    {% endif %}
 {% endblock %}

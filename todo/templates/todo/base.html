@@ -46,9 +46,11 @@
                             </form>
                         </li>
                     {% else %}
+                        {% if not PROTECTED_MODE %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'signupuser' %}">Sign Up</a>
                         </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'loginuser' %}">Login</a>
                         </li>

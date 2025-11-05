@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env file
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -63,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'todo.context_processors.protected_mode',
             ],
         },
     },
@@ -130,6 +136,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'loginuser'
 LOGIN_REDIRECT_URL = 'currenttodos'
 LOGOUT_REDIRECT_URL = 'home'
+
+# Protected mode - when True, prevents new user registrations
+PROTECTED_MODE = os.getenv('PROTECTED_MODE', 'False').lower() == 'true'
 
 try:
     from .local_settings import *
