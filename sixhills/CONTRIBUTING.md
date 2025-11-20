@@ -58,6 +58,8 @@ git status
 #### if required
 git pull
 pip install -r requirements.txt
+# To add envoronment file
+echo "export SECRET_KEY=sekritvalue" >> .env
 
 ### Now the Django specific stuff
 python manage.py migrate
